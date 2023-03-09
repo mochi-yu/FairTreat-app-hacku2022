@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: <String, WidgetBuilder> {
         '/inputNamePage': (BuildContext context) => const InputNamePage(),
+        '/selectOperationPage': (BuildContext context) => const SelectOperationPage(),
       },
     );
   }
