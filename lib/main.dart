@@ -12,7 +12,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green, 
+        textTheme: const TextTheme(
+          displayMedium: TextStyle(fontFamily: 'MochiyPopPOne', color: Colors.black),
+          headlineSmall: TextStyle(fontFamily: 'MochiyPopPOne', color: Colors.black),
+        )
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
