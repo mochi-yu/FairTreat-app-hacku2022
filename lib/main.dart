@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         '/inputNamePage': (BuildContext context) => const InputNamePage(),
         '/selectOperationPage': (BuildContext context) => const SelectOperationPage(),
+        '/selectItemFromPhoto' : (BuildContext context) => const SelectItemFromPhoto(),
       },
     );
   }
