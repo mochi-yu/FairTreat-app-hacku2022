@@ -19,7 +19,6 @@ class MyApp extends StatelessWidget {
           displayMedium: TextStyle(fontFamily: 'MochiyPopPOne', color: Colors.black),
           headlineSmall: TextStyle(fontFamily: 'MochiyPopPOne', color: Colors.black),
           titleLarge: TextStyle(fontFamily: 'MochiyPopPOne', color: Colors.white, fontSize: 25),
-          titleMedium: TextStyle(fontSize: 20)
           titleMedium: TextStyle(fontSize: 17)
         )
       ),
