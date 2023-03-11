@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './pages/top_page.dart';   // Top Page
+import './pages/pageList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,9 +18,15 @@ class MyApp extends StatelessWidget {
         textTheme: const TextTheme(
           displayMedium: TextStyle(fontFamily: 'MochiyPopPOne', color: Colors.black),
           headlineSmall: TextStyle(fontFamily: 'MochiyPopPOne', color: Colors.black),
+          titleLarge: TextStyle(fontFamily: 'MochiyPopPOne', color: Colors.white, fontSize: 25),
+          titleMedium: TextStyle(fontSize: 20)
         )
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: <String, WidgetBuilder> {
+        '/inputNamePage': (BuildContext context) => const InputNamePage(),
+        '/selectOperationPage': (BuildContext context) => const SelectOperationPage(),
+      },
     );
   }
 }
