@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:warikan_app/pages/user_assign_page.dart';
 import './pages/top_page.dart';   // Top Page
 import './pages/pageList.dart';
 
@@ -26,7 +27,10 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         '/inputNamePage': (BuildContext context) => const InputNamePage(),
         '/selectOperationPage': (BuildContext context) => const SelectOperationPage(),
-        '/selectItemFromPhoto' : (BuildContext context) => const SelectItemFromPhoto(),
+        '/selectItemFromPhotoPage' : (BuildContext context) => const SelectItemFromPhoto(),
+        '/inputItemDataPage' : (BuildContext context) => const InputItemDataPage(),
+        '/warikanPage' : (BuildContext context) => const WarikanPage(),
+        '/resultPage' : (BuildContext context) => const ResultPage(),
       },
     );
   }
