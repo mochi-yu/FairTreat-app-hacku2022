@@ -46,7 +46,7 @@ class SelectItemFromPhoto extends StatelessWidget {
                 ),
               ),
             ),
-            Footer(label: "aiueo", onPressed: () { print("pushed footer button."); }),
+            Footer(label: "金額の選択に進む", onPressed: () { print("pushed 金額の選択に進む"); }),
           ],
         )
       ),
