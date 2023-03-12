@@ -29,7 +29,10 @@ class _ItemCardWithCheckbox extends State<ItemCardWithCheckbox> {
               value: _flag,
               onChanged: _handleCheckbox,
             ),
-            title: Text(widget.label),
+            title: Text(
+              widget.label,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
         ),
       ),
