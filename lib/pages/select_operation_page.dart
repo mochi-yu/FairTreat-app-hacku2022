@@ -25,17 +25,12 @@ class SelectOperationPage extends StatelessWidget {
             const SizedBox(height: 40),
             LargeButton(label: '手動で入力', onPressed: () { print('手動で入力'); }),
             const SizedBox(height: 70),
-            LargeButton(label: 'QRコードで割り勘に参加', onPressed: () async {
-              final result = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => QRViewExample()
-                )
-              );
-              // 読み取りが完了した時の処理
-              // TODO: 読み取り終了時に止まります
-              print(result);
-            }),
+            LargeButton(label: 'QRコードで割り勘に参加', 
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const QRPage(),
+                ));
+              }),
           ]
         ),
       ),
