@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:warikan_app/qr/qr_code.dart';
 import '../components/header.dart';
 import '../components/largeButton.dart';
+
+import 'dart:async';
 
 class SelectOperationPage extends StatelessWidget {
   const SelectOperationPage({super.key});
@@ -22,10 +25,24 @@ class SelectOperationPage extends StatelessWidget {
             const SizedBox(height: 40),
             LargeButton(label: '手動で入力', onPressed: () { print('手動で入力'); }),
             const SizedBox(height: 70),
-            LargeButton(label: 'QRコードで割り勘に参加', onPressed: () { print('QRコードで割り勘に参加'); }),
+            LargeButton(label: 'QRコードで割り勘に参加', onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QRViewExample()
+                )
+              );
+              // 読み取りが完了した時の処理
+              // TODO: 読み取り終了時に止まります
+              print(result);
+            }),
           ]
         ),
       ),
     );
   }
+
+
+
+
 }
