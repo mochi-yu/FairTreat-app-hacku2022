@@ -2,9 +2,11 @@
 import 'package:flutter/material.dart';
 import '../components/header.dart';
 import '../components/largeButton.dart';
+import '../data/user_data.dart';
 
 class InputNamePage extends StatelessWidget {
-  const InputNamePage({super.key});
+  UserData myself = UserData(userName: "", isHost: true);
+  InputNamePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +28,13 @@ class InputNamePage extends StatelessWidget {
                   border: OutlineInputBorder(),
                   hintText: "表示名"
                 ),
-                onChanged: (value) { print(value); },
+                onChanged: (value) { myself.userName = value; },
               ),
             ),
             LargeButton(
               label: "これでOK",
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed('/selectOperationPage');
+                Navigator.of(context).pushNamed('/selectOperationPage', arguments: myself);
               }
             ),
           ],
