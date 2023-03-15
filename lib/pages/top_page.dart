@@ -1,13 +1,12 @@
 /// Top Page
-
 import 'package:flutter/material.dart';
-import './input_name_page.dart';
 
 class TopPage extends StatelessWidget {
   const TopPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    print("show top page.");
     return Scaffold(
       backgroundColor: Colors.greenAccent[100],
       body: GestureDetector(
@@ -17,7 +16,7 @@ class TopPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '割り勘\nアプリ',
+                'Fair Treat',
                 style: Theme.of(context).textTheme.displayMedium,
               ),
               const SizedBox(height: 80,),
@@ -29,7 +28,7 @@ class TopPage extends StatelessWidget {
           ),
         ),
         onTap: () {
-          Navigator.of(context).pushReplacementNamed('/inputNamePage');
+          Navigator.of(context).pushNamed('/inputNamePage');
         },
       ),
     );
