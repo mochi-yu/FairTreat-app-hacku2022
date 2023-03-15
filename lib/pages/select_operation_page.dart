@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:warikan_app/qr/qr_code.dart';
 import '../components/header.dart';
 import '../components/largeButton.dart';
 import '../data/export_data.dart';
@@ -45,14 +46,20 @@ class SelectOperationPage extends StatelessWidget {
             }),
 
             const SizedBox(height: 70),
-            LargeButton(label: 'QRコードで割り勘に参加', onPressed: () {
-              print('QRコードで割り勘に参加');
-              myself.isHost = false;
-              /** ここでQRコード読み取り画面への遷移を記述 */
-            }),
-          ]
+            LargeButton(label: 'QRコードで割り勘に参加', 
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const QRPage(),
+                ));
+              }
+            ),
+          ],
         ),
       ),
     );
   }
+
+
+
+
 }
