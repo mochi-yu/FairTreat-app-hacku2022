@@ -1,13 +1,11 @@
 import 'dart:math';
 import 'dart:convert';
 import 'content_node.dart';
-import 'item.dart';
-import 'package:flutter/services.dart';
+import '../data/item_data.dart';
+import '../data/user_data.dart';
 
 
 class Receipt {
-
-  static const platform = MethodChannel('warikan.flutter.dev/main');
 
   // 縦横それぞれの誤差修正の閾値
   static const double X_EPS = 0.02;
@@ -258,9 +256,9 @@ class Receipt {
   }
 
   // 注文情報を取り出し
-  List<item> getInfo(){
+  List<ItemData> getInfo(UserData myself){
 
-    List<item> info  = [];
+    List<ItemData> info  = [];
 
     void _reflexiveGetInfo(int index, String history){
 
@@ -268,7 +266,7 @@ class Receipt {
       if(edge[index].isEmpty == true && history != '' ){
         // 数字である
         if(int.tryParse(node[index].text.toString()) != null){
-          info.add(item(history, int.parse(node[index].text)));
+          info.add(ItemData(itemName: history, price: int.parse(node[index].text), payUser: [myself]));
         }
         // else{
         //   // 代替可能ワードである

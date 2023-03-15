@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:warikan_app/qr/qr_code.dart';
+import 'package:flutter/services.dart';
 import '../components/header.dart';
 import '../components/largeButton.dart';
 import '../data/export_data.dart';
+import '../ocr/receipt.dart';
 
 class SelectOperationPage extends StatelessWidget {
   const SelectOperationPage({super.key});
@@ -24,10 +26,35 @@ class SelectOperationPage extends StatelessWidget {
             ),
 
             const SizedBox(height: 30),
-            LargeButton(label: 'レシートから入力', onPressed: () {
+            LargeButton(label: 'レシートから入力', onPressed: () async {
               print("レシートから入力");
               myself.isHost = true;
-              /** ここでレシート読み取り画面への遷移を記述 */
+
+              // swift/java を呼び出してOCR
+              const platform = MethodChannel('warikan.flutter.dev/main');
+              try {
+                final String platformRes = await platform.invokeMethod('OCR');
+                if(platformRes == ''){
+                  // 撮影がキャンセルされた時の処理
+                  print('canceled');
+                }else{
+                  Receipt data = Receipt(platformRes);
+                  // print(data.getInfo(myself));
+
+                  Navigator.of(context).pushNamed(
+                    '/inputItemDataPage',
+                    arguments: WarikanData(
+                      roomID: "",
+                      hostUser: myself,
+                      guestList: [myself],
+                      itemList: data.getInfo(myself),
+                    )
+                  );
+                }
+              } on PlatformException catch (e) {
+                // swift/java から例外がスローされた場合
+                print("${e.message}");
+              }
             }),
 
             const SizedBox(height: 40),
