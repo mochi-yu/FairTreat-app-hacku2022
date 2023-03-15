@@ -6,15 +6,15 @@ class UserListItemWithCheckbox extends StatefulWidget {
   const UserListItemWithCheckbox({required this.label, super.key});
 
   @override
-  _UserListItemWithCheckbox createState() => _UserListItemWithCheckbox();
+  UserListItemWithCheckboxState createState() => UserListItemWithCheckboxState();
 }
 
-class _UserListItemWithCheckbox extends State<UserListItemWithCheckbox> {
-  bool _flag = false;
+class UserListItemWithCheckboxState extends State<UserListItemWithCheckbox> {
+  bool flag = false;
 
   void _handleCheckbox(bool? e) {
     setState(() {
-      _flag = e!;
+      flag = e!;
     });
   }
 
@@ -25,7 +25,7 @@ class _UserListItemWithCheckbox extends State<UserListItemWithCheckbox> {
       child: InkWell(
         child: ListTile(
           leading: Checkbox(
-            value: _flag,
+            value: flag,
             onChanged: _handleCheckbox,
           ),
           title: Text(
@@ -33,7 +33,7 @@ class _UserListItemWithCheckbox extends State<UserListItemWithCheckbox> {
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
-        onTap: () => _handleCheckbox(!_flag),
+        onTap: () => _handleCheckbox(!flag),
       ),
     );
   }

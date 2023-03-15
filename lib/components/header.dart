@@ -9,13 +9,13 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: Colors.green[900],
-      title: Center(
-        child: Text(
+      centerTitle: true,
+      title: Text(
           "割り勘アプリ",
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      ),
+          style: Theme.of(context).textTheme.titleLarge
+        )
     );
   }
 }

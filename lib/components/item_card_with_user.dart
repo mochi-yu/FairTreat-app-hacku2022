@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:warikan_app/pages/user_assign_page.dart';
+import '../data/export_data.dart';
+import '../pages/user_assign_page.dart';
 
 class ItemCardWithUser extends StatefulWidget {
-  final String label;
-  final String price;
-  final String user;
+  final WarikanDataNotifer warikanDataNotifer;
+  final int index;
 
-  const ItemCardWithUser({required this.label, required this.price, required this.user, super.key});
+  const ItemCardWithUser({required this.warikanDataNotifer, required this.index, super.key});
 
   @override
-  _ItemCardWithUser createState() => _ItemCardWithUser();
+  ItemCardWithUserState createState() => ItemCardWithUserState();
 }
 
-class _ItemCardWithUser extends State<ItemCardWithUser> {
+class ItemCardWithUserState extends State<ItemCardWithUser> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.warikanDataNotifer.getItemList[widget.index].payUser.length);
     return InkWell(
       child: SizedBox(
         width: 330,
@@ -25,30 +26,38 @@ class _ItemCardWithUser extends State<ItemCardWithUser> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  child: Container(
-                    child: Text(
-                      widget.label,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.clip,
-                    ),
+                  child: Text(
+                    widget.warikanDataNotifer.getItemList[widget.index].itemName,
+                    style: Theme.of(context).textTheme.titleMedium,
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.clip,
                   ),
                 ),
                 const SizedBox(width: 10,),
                 Text(
-                  widget.price,
+                  widget.warikanDataNotifer.getItemList[widget.index].price.toString(),
                   style: Theme.of(context).textTheme.titleMedium,
                   textAlign: TextAlign.right,
                 ),
               ],
             ),
             subtitle: Text(
-              widget.user,
+              widget.warikanDataNotifer.getItemList[widget.index].payUser.join(),
             ),
           )
         ),
       ),
-      onTap: () => { Navigator.push(context, MaterialPageRoute(builder: (context) => UserAssignPage(price: widget.price, label: widget.label, users: const ['User1', 'Uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuser2', 'User3'])))},
+      onTap: () => {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserAssignPage(
+              warikanDataNotifer: widget.warikanDataNotifer,
+              index: widget.index,
+            )
+          )
+        ),
+      },
     );
   }
 }

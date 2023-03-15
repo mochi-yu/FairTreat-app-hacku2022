@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'largeButton.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../data/export_data.dart';
 import 'shortButton.dart';
 
 class EditableItemCardWithPrice extends StatefulWidget {
-  final String label;
-  final String price;
+  final WarikanDataNotifer warikanDataNotifer;
+  final int index;
 
-  const EditableItemCardWithPrice({required this.label, required this.price, super.key});
+  const EditableItemCardWithPrice({required this.warikanDataNotifer, required this.index, super.key});
 
   @override
   _EditableItemCardWithPrice createState() => _EditableItemCardWithPrice();
@@ -14,7 +16,10 @@ class EditableItemCardWithPrice extends StatefulWidget {
 
 class _EditableItemCardWithPrice extends State<EditableItemCardWithPrice> {
 
-  void _showBottom() async {
+  void _showBottom(ItemDataNotifer itemDataNotifer) async {
+    ItemData _item = itemDataNotifer.getItemData;
+    String _newItemName = _item.itemName;
+    String _newPrice = _item.price.toString();
     await showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -35,30 +40,50 @@ class _EditableItemCardWithPrice extends State<EditableItemCardWithPrice> {
                   textAlign: TextAlign.start,
                 ),
                 TextField(
-                  controller: TextEditingController(text: widget.label),
+                  controller: TextEditingController(text: _item.itemName),
                   autofocus: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder()
                   ),
+                  onChanged: (value) { _newItemName = value; },
                 ),
                 Text(
                   "値段",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 TextField(
-                  controller: TextEditingController(text: widget.price),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  controller: TextEditingController(text: _item.price.toString()),
                   autofocus: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder()
                   ),
+                  onChanged: (value) { _newPrice = value; },
                 ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ShortButton(color: const Color.fromARGB(255, 255, 198, 204), label: "削除", onPressed: () { Navigator.pop(context); }),
+                    ShortButton(
+                      color: const Color.fromARGB(255, 255, 198, 204),
+                      label: "削除",
+                      onPressed: () {
+                        widget.warikanDataNotifer.clearItem(_item);
+                        Navigator.pop(context);
+                      }
+                    ),
+
                     const SizedBox(width: 50),
-                    ShortButton(color: const Color.fromARGB(255, 123, 255, 128), label: "決定", onPressed: () { Navigator.pop(context); }),
+
+                    ShortButton(
+                      color: const Color.fromARGB(255, 123, 255, 128),
+                      label: "決定",
+                      onPressed: () {
+                        itemDataNotifer.updateItemData(newItemName: _newItemName, newPrice: int.parse(_newPrice));
+                        Navigator.pop(context);
+                      }
+                    ),
                   ],
                 ),
               ],
@@ -71,36 +96,44 @@ class _EditableItemCardWithPrice extends State<EditableItemCardWithPrice> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: SizedBox(
-        width: 330,
-        child: Card(
-          child: ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Container(
-                    child: Text(
-                      widget.label,
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.clip,
-                    ),
+    final itemData = widget.warikanDataNotifer.getItemList[widget.index]; 
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => ItemDataNotifer(itemData),
+      child: Consumer<ItemDataNotifer>(
+        builder: (context, itemDataNotifer, _) {
+          return InkWell(
+            child: SizedBox(
+              width: 330,
+              child: Card(
+                child: ListTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Container(
+                          child: Text(
+                            itemData.itemName,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.left,
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10,),
+                      Text(
+                        itemData.price.toString(),
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.right,
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(width: 10,),
-                Text(
-                  widget.price,
-                  style: Theme.of(context).textTheme.titleMedium,
-                  textAlign: TextAlign.right,
-                ),
-              ],
+                )
+              ),
             ),
-          )
-        ),
+            onTap: () => _showBottom(itemDataNotifer),
+          );
+        },
       ),
-      onTap: () => _showBottom(),
     );
   }
 }

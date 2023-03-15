@@ -1,65 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../components/header.dart';
 import '../components/footer.dart';
 import '../components/editable_item_card_with_price.dart';
 import '../components/add_item_card.dart';
+import '../data/export_data.dart';
 
-const List<String> _testString = [
-  "商品名１",
-  "ながああああああああああああああああいテキスト",
-  "商品名２",
-  "商品名３",
-  "商品名４",
-  "商品名５",
-  "商品名６",
-  "商品名７",
-];
 
-const List<String> _testPrice = [
-  "1,000円",
-  "10,000円",
-  "2,000円",
-  "3,000円",
-  "4,000円",
-  "5,000円",
-  "6,000円",
-  "7,000円",
-];
+class InputItemDataPage extends StatefulWidget {
+  InputItemDataPage({super.key});
 
-class InputItemDataPage extends StatelessWidget {
-  const InputItemDataPage({super.key});
+  final List<UserData> testUser = [
+    UserData(userName: "一郎", isHost: false),
+    UserData(userName: "次郎", isHost: false),
+    UserData(userName: "三郎", isHost: false),
+    UserData(userName: "四郎", isHost: false),
+    UserData(userName: "五郎", isHost: false),
+  ];
 
   @override
+  _InputItemDataPage createState() => _InputItemDataPage();
+}
+
+class _InputItemDataPage extends State<InputItemDataPage> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const Header(),
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 55),
-                    Text(
-                      '商品として追加するものを選んでください。\n品目の追加修正は後から行えます。',
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 25),
-                    for(int i = 0; i < _testString.length; i++) ... {
-                      EditableItemCardWithPrice(label: _testString[i], price: _testPrice[i],)
-                    },
-                    const AddItemCard(),
-                    const SizedBox(height: 30),
-                  ],
+    WarikanData warikan = ModalRoute.of(context)!.settings.arguments as WarikanData;
+
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => WarikanDataNotifer(warikan: warikan),
+      child: Scaffold(
+        appBar: const Header(),
+        body: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 55),
+                      Text(
+                        '商品として追加するものを選んでください。\n品目の追加修正は後から行えます。',
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 25),
+                      Consumer<WarikanDataNotifer>(
+                        builder: (context, warikanData, _) {
+                          return Column(
+                            children: [
+                              for(int i = 0; i < warikanData.getItemList.length; i++) ... {
+                                EditableItemCardWithPrice(index: i, warikanDataNotifer: warikanData),
+                              },
+                              AddItemCard(warikanDataNotifer: warikanData),
+                            ],
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Footer(label: "これで決定", onPressed: () { print("pushed これで決定"); }),
-        ],
+            Consumer<WarikanDataNotifer>(
+              builder: (context, warikanData, _) {
+                return Footer(
+                  label: "これで決定",
+                  onPressed: () {
+                    for(int i = 0; i < widget.testUser.length; i++) {
+                      warikanData.addJoiningUser(widget.testUser[i]);
+                    }
+                    Navigator.of(context).pushReplacementNamed(
+                      '/warikanPage',
+                      arguments: warikanData.getWarikanData
+                    );
+                    // print("pushed これで決定");
+                  }
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

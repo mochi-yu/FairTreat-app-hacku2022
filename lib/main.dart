@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:warikan_app/pages/user_assign_page.dart';
-import './pages/top_page.dart';   // Top Page
-import './pages/pageList.dart';
+import 'pages/pageList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,10 +23,11 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
       routes: <String, WidgetBuilder> {
-        '/inputNamePage': (BuildContext context) => const InputNamePage(),
+        '/topPage' : (BuildContext context) => const TopPage(),
+        '/inputNamePage': (BuildContext context) => InputNamePage(),
         '/selectOperationPage': (BuildContext context) => const SelectOperationPage(),
         '/selectItemFromPhotoPage' : (BuildContext context) => const SelectItemFromPhoto(),
-        '/inputItemDataPage' : (BuildContext context) => const InputItemDataPage(),
+        '/inputItemDataPage' : (BuildContext context) => InputItemDataPage(),
         '/warikanPage' : (BuildContext context) => const WarikanPage(),
         '/resultPage' : (BuildContext context) => const ResultPage(),
       },
@@ -48,6 +47,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const TopPage();
+    return PageShow();
   }
 }

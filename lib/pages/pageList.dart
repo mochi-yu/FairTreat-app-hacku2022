@@ -4,3 +4,5 @@ export 'select_item_from_photo.dart';
 export 'input_item_data_page.dart';
 export 'warikan_page.dart';
 export 'result_page.dart';
+export 'top_page.dart';
+export 'page_show.dart';
