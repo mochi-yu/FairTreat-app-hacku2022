@@ -1,8 +1,10 @@
 // Input name page
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../components/header_with_return.dart';
 import '../components/footer.dart';
 import '../components/item_card_with_user.dart';
+import '../data/export_data.dart';
 
 const List<String> _testString = [
   "商品名１",
@@ -37,39 +39,64 @@ const List<String> _testUser = [
   "ユーザ７",
 ];
 
-class WarikanPage extends StatelessWidget {
+class WarikanPage extends StatefulWidget {
   const WarikanPage({super.key});
 
   @override
+  _WarikanPage createState() => _WarikanPage();
+}
+
+class _WarikanPage extends State<WarikanPage> {
+
+  @override
   Widget build(BuildContext context) {
+    WarikanData warikanData = ModalRoute.of(context)!.settings.arguments as WarikanData;
+    print(warikanData.itemList.length);
+
     return Scaffold(
       appBar: const HeaderWithReturn(),
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 55),
-                    Text(
-                      '商品として追加するものを選んでください。\n品目の追加修正は後から行えます。',
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 25),
-                    for(int i = 0; i < _testString.length; i++) ... {
-                      ItemCardWithUser(user: _testUser[i], label: _testString[i], price: _testPrice[i])
-                    },
-                    const SizedBox(height: 30),
-                  ],
+      body: ChangeNotifierProvider<WarikanDataNotifer>(
+        create: (BuildContext context) => WarikanDataNotifer(warikan: warikanData),
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 55),
+                      Text(
+                        '割り振りを決めてください。',
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 25),
+                      Consumer<WarikanDataNotifer>(
+                        builder: (context, data, _) {
+                          return Column(
+                            children: [
+                              for(int i = 0; i < warikanData.itemList.length; i++) ... {
+                                ItemCardWithUser(index: i, warikanDataNotifer: data),
+                              },
+                            ],
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Footer(label: "これで決定", onPressed: () { print(_testPrice.length); }),
-        ],
+            Footer(
+              label: "これで決定",
+              onPressed: () {
+                print(_testPrice.length);
+              }
+            ),
+          ],
+        ),
       ),
     );
   }
