@@ -37,6 +37,13 @@ class WarikanDataNotifer extends ChangeNotifier {
     notifyListeners();
   }
 
+  // 支払うユーザの更新
+  void updatePayUser(List<UserData> users, int index) {
+    _warikanData.itemList[index].payUser = users;
+    print("Update pay user.");
+    notifyListeners();
+  }
+
   // 商品の追加
   void addItem(ItemData item) {
     _warikanData.itemList = [..._warikanData.itemList, item];

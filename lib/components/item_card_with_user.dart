@@ -9,13 +9,14 @@ class ItemCardWithUser extends StatefulWidget {
   const ItemCardWithUser({required this.warikanDataNotifer, required this.index, super.key});
 
   @override
-  _ItemCardWithUser createState() => _ItemCardWithUser();
+  ItemCardWithUserState createState() => ItemCardWithUserState();
 }
 
-class _ItemCardWithUser extends State<ItemCardWithUser> {
+class ItemCardWithUserState extends State<ItemCardWithUser> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.warikanDataNotifer.getItemList[widget.index].payUser.length);
     return InkWell(
       child: SizedBox(
         width: 330,

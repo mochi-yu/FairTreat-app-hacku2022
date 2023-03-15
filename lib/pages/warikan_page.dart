@@ -6,44 +6,11 @@ import '../components/footer.dart';
 import '../components/item_card_with_user.dart';
 import '../data/export_data.dart';
 
-const List<String> _testString = [
-  "商品名１",
-  "ながああああああああああああああああいテキスト",
-  "商品名２",
-  "商品名３",
-  "商品名４",
-  "商品名５",
-  "商品名６",
-  "商品名７",
-];
-
-const List<String> _testPrice = [
-  "1,000円",
-  "10,000円",
-  "2,000円",
-  "3,000円",
-  "4,000円",
-  "5,000円",
-  "6,000円",
-  "7,000円",
-];
-
-const List<String> _testUser = [
-  "ユーザ１",
-  "ながああああああああああああああああいユーザ",
-  "ユーザ２",
-  "ユーザ３",
-  "ユーザ４",
-  "ユーザ５",
-  "ユーザ６",
-  "ユーザ７",
-];
-
 class WarikanPage extends StatefulWidget {
   const WarikanPage({super.key});
 
   @override
-  _WarikanPage createState() => _WarikanPage();
+   _WarikanPage createState() => _WarikanPage();
 }
 
 class _WarikanPage extends State<WarikanPage> {
@@ -92,7 +59,7 @@ class _WarikanPage extends State<WarikanPage> {
             Footer(
               label: "これで決定",
               onPressed: () {
-                print(_testPrice.length);
+                print(warikanData.itemList.length);
               }
             ),
           ],

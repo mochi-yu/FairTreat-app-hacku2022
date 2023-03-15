@@ -48,6 +48,7 @@ class SelectOperationPage extends StatelessWidget {
             const SizedBox(height: 70),
             LargeButton(label: 'QRコードで割り勘に参加', 
               onPressed: () {
+                myself.isHost = false;
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const QRPage(),
                 ));

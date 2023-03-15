@@ -9,6 +9,6 @@ class UserData {
 
   @override
   String toString() {
-    return userName;
+    return userName + ", ";
   }
 }
