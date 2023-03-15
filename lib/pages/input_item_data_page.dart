@@ -8,7 +8,15 @@ import '../data/export_data.dart';
 
 
 class InputItemDataPage extends StatefulWidget {
-  const InputItemDataPage({super.key});
+  InputItemDataPage({super.key});
+
+  final List<UserData> testUser = [
+    UserData(userName: "一郎", isHost: false),
+    UserData(userName: "次郎", isHost: false),
+    UserData(userName: "三郎", isHost: false),
+    UserData(userName: "四郎", isHost: false),
+    UserData(userName: "五郎", isHost: false),
+  ];
 
   @override
   _InputItemDataPage createState() => _InputItemDataPage();
@@ -61,6 +69,9 @@ class _InputItemDataPage extends State<InputItemDataPage> {
                 return Footer(
                   label: "これで決定",
                   onPressed: () {
+                    for(int i = 0; i < widget.testUser.length; i++) {
+                      warikanData.addJoiningUser(widget.testUser[i]);
+                    }
                     Navigator.of(context).pushReplacementNamed(
                       '/warikanPage',
                       arguments: warikanData.getWarikanData
