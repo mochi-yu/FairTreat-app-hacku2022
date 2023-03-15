@@ -51,7 +51,7 @@ class _InputItemDataPage extends State<InputItemDataPage> {
                           return Column(
                             children: [
                               for(int i = 0; i < warikanData.getItemList.length; i++) ... {
-                                EditableItemCardWithPrice(itemData: warikanData.getItemList[i]),
+                                EditableItemCardWithPrice(index: i, warikanDataNotifer: warikanData),
                               },
                               AddItemCard(warikanDataNotifer: warikanData),
                             ],

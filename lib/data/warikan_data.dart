@@ -60,7 +60,11 @@ class WarikanDataNotifer extends ChangeNotifier {
 
   // 商品の削除
   void clearItem(ItemData item) {
-    _warikanData.itemList.remove(item);
+    for(int i = 0; i < _warikanData.itemList.length; i++) {
+      if(item.itemName == _warikanData.itemList[i].itemName) {
+        _warikanData.itemList.removeAt(i);
+      }
+    }
     notifyListeners();
   }
 }

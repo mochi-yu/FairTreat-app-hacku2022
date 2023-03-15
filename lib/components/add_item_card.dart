@@ -62,7 +62,7 @@ class _AddItemCard extends State<AddItemCard> {
                   children: [
                     ShortButton(
                       color: const Color.fromARGB(255, 255, 198, 204),
-                      label: "削除",
+                      label: "取り消し",
                       onPressed: () { Navigator.pop(context);}
                     ),
                     const SizedBox(width: 50),

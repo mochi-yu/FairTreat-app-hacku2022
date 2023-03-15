@@ -5,9 +5,10 @@ import '../data/export_data.dart';
 import 'shortButton.dart';
 
 class EditableItemCardWithPrice extends StatefulWidget {
-  final ItemData itemData;
+  final WarikanDataNotifer warikanDataNotifer;
+  final int index;
 
-  const EditableItemCardWithPrice({required this.itemData, super.key});
+  const EditableItemCardWithPrice({required this.warikanDataNotifer, required this.index, super.key});
 
   @override
   _EditableItemCardWithPrice createState() => _EditableItemCardWithPrice();
@@ -68,7 +69,7 @@ class _EditableItemCardWithPrice extends State<EditableItemCardWithPrice> {
                       color: const Color.fromARGB(255, 255, 198, 204),
                       label: "削除",
                       onPressed: () {
-                        Provider.of<WarikanDataNotifer>(context, listen: false).clearItem(_item);
+                        widget.warikanDataNotifer.clearItem(_item);
                         Navigator.pop(context);
                       }
                     ),
@@ -95,8 +96,9 @@ class _EditableItemCardWithPrice extends State<EditableItemCardWithPrice> {
 
   @override
   Widget build(BuildContext context) {
+    final itemData = widget.warikanDataNotifer.getItemList[widget.index]; 
     return ChangeNotifierProvider(
-      create: (BuildContext context) => ItemDataNotifer(widget.itemData),
+      create: (BuildContext context) => ItemDataNotifer(itemData),
       child: Consumer<ItemDataNotifer>(
         builder: (context, itemDataNotifer, _) {
           return InkWell(
@@ -110,7 +112,7 @@ class _EditableItemCardWithPrice extends State<EditableItemCardWithPrice> {
                       Flexible(
                         child: Container(
                           child: Text(
-                            widget.itemData.itemName,
+                            itemData.itemName,
                             style: Theme.of(context).textTheme.titleMedium,
                             textAlign: TextAlign.left,
                             overflow: TextOverflow.clip,
@@ -119,7 +121,7 @@ class _EditableItemCardWithPrice extends State<EditableItemCardWithPrice> {
                       ),
                       const SizedBox(width: 10,),
                       Text(
-                        widget.itemData.price.toString(),
+                        itemData.price.toString(),
                         style: Theme.of(context).textTheme.titleMedium,
                         textAlign: TextAlign.right,
                       ),
