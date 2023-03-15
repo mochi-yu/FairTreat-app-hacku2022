@@ -28,6 +28,9 @@
 
 # サンプル
 ```
+import 'package:flutter/services.dart';
+import 'dart:async';
+
 Future<void> ocrSample() async {
   const platform = MethodChannel('warikan.flutter.dev/main');
 
