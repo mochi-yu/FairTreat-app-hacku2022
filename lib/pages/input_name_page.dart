@@ -5,7 +5,7 @@ import '../components/largeButton.dart';
 import '../data/user_data.dart';
 
 class InputNamePage extends StatelessWidget {
-  UserData myself = UserData(userName: "", isHost: true);
+  UserData myself = UserData(userName: "", isHost: true, userID: 0);
   InputNamePage({super.key});
 
   @override
@@ -34,7 +34,10 @@ class InputNamePage extends StatelessWidget {
             LargeButton(
               label: "これでOK",
               onPressed: () {
-                Navigator.of(context).pushNamed('/selectOperationPage', arguments: myself);
+                Navigator.of(context).pushNamed(
+                  '/selectOperationPage',
+                  arguments: myself
+                );
               }
             ),
           ],

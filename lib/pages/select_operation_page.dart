@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:warikan_app/qr/qr_code.dart';
 import 'package:flutter/services.dart';
 import '../components/header.dart';
 import '../components/largeButton.dart';
 import '../data/export_data.dart';
 import '../ocr/receipt.dart';
 import '../ocr/ocr_on_flutter.dart';
+import '../qr/qr_code.dart';
 
 class SelectOperationPage extends StatelessWidget {
   const SelectOperationPage({super.key});

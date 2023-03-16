@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:warikan_app/pages/qr_code_page.dart';
 import 'pages/pageList.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/selectOperationPage': (BuildContext context) => const SelectOperationPage(),
         '/selectItemFromPhotoPage' : (BuildContext context) => const SelectItemFromPhoto(),
         '/inputItemDataPage' : (BuildContext context) => InputItemDataPage(),
+        '/qrcodePage' : (BuildContext context) => QRCodePage(),
         '/warikanPage' : (BuildContext context) => const WarikanPage(),
         '/resultPage' : (BuildContext context) => const ResultPage(),
       },
