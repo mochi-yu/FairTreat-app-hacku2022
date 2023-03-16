@@ -1,3 +1,5 @@
+import '../grpc/export_fairtreat_protos.dart';
+
 class UserData {
   String userName;
   int userID;
@@ -8,6 +10,10 @@ class UserData {
     required this.isHost,
     required this.userID,
   });
+
+  User userDataToUser() {
+    return User(id: userID, name: userName);
+  }
 
   @override
   String toString() {
