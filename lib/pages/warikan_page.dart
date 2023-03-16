@@ -5,6 +5,7 @@ import '../components/header_with_return.dart';
 import '../components/footer.dart';
 import '../components/item_card_with_user.dart';
 import '../data/export_data.dart';
+import '../grpc/grpc_client.dart';
 
 class WarikanPage extends StatefulWidget {
   const WarikanPage({super.key});
@@ -18,6 +19,12 @@ class _WarikanPage extends State<WarikanPage> {
   @override
   Widget build(BuildContext context) {
     WarikanData warikanData = ModalRoute.of(context)!.settings.arguments as WarikanData;
+    if(warikanData.isOpen) {
+      Navigator.of(context).pushReplacementNamed(
+        '/resultPage',
+        arguments: warikanData,
+      );
+    }
     print(warikanData.itemList.length);
 
     return Scaffold(
@@ -58,8 +65,16 @@ class _WarikanPage extends State<WarikanPage> {
             ),
             Footer(
               label: "これで決定",
-              onPressed: () {
-                print(warikanData.itemList.length);
+              onPressed: () async {
+                print("割り勘確定を送信");
+                GrpcClient cl = GrpcClient();
+                sendCreateBill(warikanData, cl).then((value) {
+                  print("割り勘結果を受信、ページを遷移します。");
+                  Navigator.of(context).pushReplacementNamed(
+                    '/resultPage',
+                    arguments: value,
+                  );
+                });
               }
             ),
           ],

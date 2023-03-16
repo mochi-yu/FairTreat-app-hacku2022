@@ -1,35 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:warikan_app/components/user_list_item_with_price.dart';
+import 'package:flutter/services.dart';
 import '../components/header.dart';
 import '../components/footer.dart';
-
-const List<String> _testPrice = [
-  "1,000円",
-  "10,000円",
-  "2,000円",
-  "3,000円",
-  "4,000円",
-  "5,000円",
-  "6,000円",
-  "7,000円",
-];
-
-const List<String> _testUser = [
-  "ユーザ１",
-  "ながああああああああああああああああいユーザ",
-  "ユーザ２",
-  "ユーザ３",
-  "ユーザ４",
-  "ユーザ５",
-  "ユーザ６",
-  "ユーザ７",
-];
+import '../data/export_data.dart';
+import '../components/user_list_item_with_price.dart';
 
 class ResultPage extends StatelessWidget {
   const ResultPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // 前ページから
+    List<ResultData> result = ModalRoute.of(context)!.settings.arguments as List<ResultData>;
+
     return Scaffold(
       appBar: const Header(),
       body: Column(
@@ -49,8 +32,8 @@ class ResultPage extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
-                        for(int i = 0; i < _testUser.length; i++) ... {
-                          UserListItemWithPrice(price: _testPrice[i], user: _testUser[i])
+                        for(int i = 0; i < result.length; i++) ... {
+                          UserListItemWithPrice(price: result[i].price.toString(), user: result[i].user.userName)
                         }
                       ],
                     )
@@ -59,7 +42,10 @@ class ResultPage extends StatelessWidget {
               ),
             ),
           ),
-          Footer(label: '終了', onPressed: () { print("終了"); })
+          Footer(label: '終了', onPressed: () {
+            print("アプリ終了");
+            SystemNavigator.pop();
+          })
         ],
       ),
     );
