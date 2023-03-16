@@ -1,0 +1,162 @@
+// Config
+syntax = "proto3";
+package fairtreat;
+option go_package="fairtreat.suwageeks.org/pb";
+
+// ############
+// Service
+// ############
+service FairTreat {
+    rpc CreateBill (CreateBillRequest) returns (CreateBillResponse) {} // 明細を作成
+    rpc GetBill (GetBillRequest) returns (GetBillResponse) {} // 明細情報を取得
+    rpc ConnectBill (ConnectBillRequest) returns (stream ConnectBillResponse) {} // 明細に接続 (変更地点情報のリアルタイム取得用)
+    rpc ConfirmBill (ConfirmBillRequest) returns (ConfirmBillResponse) {} // 明細の確定
+    rpc GetConfirmBill (GetConfirmBillRequest) returns (GetConfirmBillResponse) {} // 確定明細の取得
+
+    // ############
+    // Methods for each room
+    // ############
+    // Users
+    rpc AddUser (AddUserRequest) returns (AddUserResponse) {} // 明細にユーザを追加
+    rpc GetUsersList (GetUsersListRequest) returns (GetUsersListResponse) {} // 明細のユーザを取得 (ホストを含む)
+
+    // Items
+    rpc GetItemsList (GetItemsListRequest) returns (GetItemsListResponse) {} // 商品の一覧を取得
+
+    // ItemOwners
+    //// 特定商品の支払う人のみを取得したい時に使う
+    rpc SetOwners (SetItemOwnerRequest) returns (SetItemOwnerResponse) {} // 支払う人を設定する (上書き)
+    rpc GetItemOwnersList (GetItemOwnersRequest) returns (GetItemOwnersResponse) {} // 支払う人の一覧取得
+}
+
+// ############
+// Enum
+// ############
+enum BILL_CHANGE_TYPE {
+    GUEST = 0; // 明細にユーザが増えた時
+    ITEM = 1; // アイテムを支払う人が変更された時
+    CONFIRM = 2; // 明細が確定された時
+}
+
+// ############
+// Types
+// ############
+message Bill {
+    string id = 1;
+    User host = 2;
+    repeated User guests = 3;
+    repeated Item items = 4;
+}
+message User {
+    int32 id = 1;
+    string name = 2;
+}
+message Item {
+    int32 id = 1;
+    string name = 2;
+    int32 price = 3;
+    repeated User owners = 4;
+}
+message PayPrice {
+    User user = 1;
+    int32 price = 2;
+}
+
+// ############
+// Messages
+// ############
+//// Bill
+// CreateBill
+message CreateBillRequest {
+    string hostName = 1;
+    repeated Item items = 2;
+}
+message CreateBillResponse {
+    string billId = 1;
+    User host = 2;
+}
+
+// GetBill
+message GetBillRequest {
+    string id = 1;
+}
+message GetBillResponse {
+    Bill bill = 1;
+}
+
+// ConnectBill
+message ConnectBillRequest {
+    string id = 1;
+    string hostName = 2;
+}
+message ConnectBillResponse {
+    BILL_CHANGE_TYPE type = 1;
+    int32 id = 2; // type => {GUEST: 0, ITEM: itemId, COMFIRM: 0}
+}
+
+// ConfirmBill
+message ConfirmBillRequest {
+    string id = 1;
+}
+message ConfirmBillResponse {
+    bool status = 1;
+}
+
+// GetConfirmBill
+message GetConfirmBillRequest {
+    string id = 1;
+}
+message GetConfirmBillResponse {
+    int32 count = 1;
+    repeated PayPrice payPrices = 2;
+}
+
+//// User
+// Add
+message AddUserRequest {
+    string id = 1;
+    string name = 2;
+}
+message AddUserResponse {
+    bool status = 1;
+    User guest = 2; // userId取得できるように
+}
+
+// Get
+message GetUsersListRequest {
+    string id = 1;
+}
+message GetUsersListResponse {
+    int32 count = 1;
+    repeated User users = 2;
+}
+
+//// Item
+// GetList
+message GetItemsListRequest {
+    string id = 1;
+}
+message GetItemsListResponse {
+    int32 count = 1;
+    repeated Item items = 2;
+}
+
+/// Owner
+// Set
+message SetItemOwnerRequest {
+    string id = 1;
+    int32 itemId = 2;
+    repeated User owners = 3;
+}
+message SetItemOwnerResponse {
+    bool status = 1;
+}
+// Get
+message GetItemOwnersRequest {
+    string id = 1;
+    int32 itemId = 2;
+}
+message GetItemOwnersResponse {
+    int32 count = 1;
+    repeated User owners = 2;
+}
