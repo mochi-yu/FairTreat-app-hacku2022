@@ -287,7 +287,7 @@ class Receipt {
         // 数字である
         if(int.tryParse(node[index].text.toString()) != null){
           for (var i = 0; i < amount; i++) {
-            info.add(ItemData(itemName: history, price: int.parse(node[index].text), payUser: [myself]));
+            info.add(ItemData(itemName: history, price: int.parse(node[index].text), payUser: [myself], id: 0));
           } 
         }
         // else{
