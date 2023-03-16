@@ -8,10 +8,10 @@ import '../data/user_data.dart';
 class Receipt {
 
   // 縦横それぞれの誤差修正の閾値
-  static const double X_EPS = 0.02;
-  static const double Y_EPS = 0.01;
+  double X_EPS = 0.04;
+  double Y_EPS = 0.01;
 
-  List<String> ngWords = ['小計', '合計', '税', '現金', '釣銭', '番号', '10%', '8%'];
+  List<String> ngWords = ['小計', '合計', '税', '現金', '釣銭', '番号', '%', '％', '支払', '店', '釣り', '預り'];
   List<String> altPrice = ['セット'];
 
   // レシートの内容をグラフで管理
@@ -26,6 +26,7 @@ class Receipt {
 
   // グラフ作成時に置換するもの
   List<List<String>> rep_req = [
+    // カッコを統一
     ['（', '('],
     ['）', ')'],
     ['『', '('],
@@ -35,16 +36,35 @@ class Receipt {
     [']', ')'],
     ['[', '('],
 
+    // 全角数字を半角に
+    ['１', '1'],
+    ['２', '2'],
+    ['３', '3'],
+    ['４', '4'],
+    ['５', '5'],
+    ['６', '6'],
+    ['７', '7'],
+    ['８', '8'],
+    ['９', '9'],
+    ['０', '0'],
+
     //除去
     ['(', ''],
     [')', ''],
     ['¥', ''],
-    [',', '']
+    [',', ''],
+    ['*', ''],
+    ['※', '']
   ];
 
   // コンストラクタ
-  Receipt(String jsonString){
+  Receipt(String jsonString, bool isiOS){
     
+    // iOSの場合は判定誤差を小さく
+    if(isiOS == true){
+      X_EPS = 0.04;
+      Y_EPS = 0.01;
+    }
     
     Iterable l = json.decode(jsonString);
     node = List<ContentNode>.from(l.map((model)=> ContentNode.fromJson(model)));
@@ -260,13 +280,15 @@ class Receipt {
 
     List<ItemData> info  = [];
 
-    void _reflexiveGetInfo(int index, String history){
+    void _reflexiveGetInfo(int index, String history, int amount){
 
       // 末端ノードが数値かつhistoryが空文字列でない
       if(edge[index].isEmpty == true && history != '' ){
         // 数字である
         if(int.tryParse(node[index].text.toString()) != null){
-          info.add(ItemData(itemName: history, price: int.parse(node[index].text), payUser: [myself]));
+          for (var i = 0; i < amount; i++) {
+            info.add(ItemData(itemName: history, price: int.parse(node[index].text), payUser: [myself]));
+          } 
         }
         // else{
         //   // 代替可能ワードである
@@ -288,12 +310,29 @@ class Receipt {
               break;
             }
           }
-          if(hasNGword == false)_reflexiveGetInfo(next, '$history ${node[index].text}');
+        if(hasNGword == false)_reflexiveGetInfo(next, '$history ${node[index].text}', amount);
+
+
+          // 非末端ノードが個数部分だった場合は個数を設定して伝播
+          // 個数部の判定は装飾文字を削除してそれが数字なら
+          // List<String> inAmount = ['点', '※', '*', '個'];
+          // String nodeText = node[index].text;
+          // for (var prefix in inAmount) {
+          //   nodeText.replaceAll(prefix, '');
+          // }
+
+          // if(hasNGword == false){
+          //   if (int.tryParse(nodeText.toString()) != null) {
+          //     _reflexiveGetInfo(next, history, int.parse(nodeText));
+          //   }else{
+          //     _reflexiveGetInfo(next, '$history ${node[index].text}', amount);
+          //   }
+          // }
         }
       } 
     }
     for (var elem in root) {
-     _reflexiveGetInfo(elem, ''); 
+     _reflexiveGetInfo(elem, '', 1); 
     }
     return info;
   }

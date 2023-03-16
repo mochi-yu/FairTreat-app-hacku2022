@@ -75,10 +75,7 @@ class RunnerViewController: UIViewController {
             ret += "\"maxX\":\(box.maxX),"
             ret += "\"minY\":\(1.0-box.maxY),"
             ret += "\"maxY\":\(1.0-box.minY),"
-            /*
-                TODO: textに " が入るとjsonとしてダメになるかも
-            */
-            ret += "\"text\":\"\(text)\""
+            ret += "\"text\":\"\(text.replacingOccurrences(of: "\"", with: ""))\""
             ret += "},"
 
         }
