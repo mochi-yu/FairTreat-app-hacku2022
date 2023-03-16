@@ -74,7 +74,8 @@ class _AddItemCard extends State<AddItemCard> {
                           ItemData(
                             itemName: _itemName,
                             price: int.parse(_itemPrice),
-                            payUser: [widget.warikanDataNotifer.getHostUser]
+                            payUser: [widget.warikanDataNotifer.getHostUser],
+                            id: 0,
                           )
                         );
                         Navigator.pop(context);

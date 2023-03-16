@@ -7,11 +7,13 @@ class ItemData {
   // int amount;
   int price;
   List<UserData> payUser;
+  int id;
 
   ItemData({
     required this.itemName,
     required this.price,
     required this.payUser,
+    required this.id,
   });
 }
 
