@@ -70,9 +70,9 @@ class _InputItemDataPage extends State<InputItemDataPage> {
                 return Footer(
                   label: "これで決定",
                   onPressed: () async {
-                    for(int i = 0; i < widget.testUser.length; i++) {
-                      warikanData.addJoiningUser(widget.testUser[i]);
-                    }
+                    // for(int i = 0; i < widget.testUser.length; i++) {
+                    //   warikanData.addJoiningUser(widget.testUser[i]);
+                    // }
 
                     WarikanData wada = warikanData.getWarikanData;
                     for(int i = 0; i < wada.itemList.length; i++) {

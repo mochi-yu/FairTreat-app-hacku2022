@@ -163,9 +163,10 @@ Future<bool> sendSetItemOwner(WarikanData wada, GrpcClient cl, ItemData item) as
     );
   } catch(e) {
     print("Caught error in sendConfirmBill: $e");
-  } finally {
-    await cl.channel.shutdown();
-  }
+  } 
+  // finally {
+  //   await cl.channel.shutdown();
+  // }
 
   return response.status;
 }

@@ -9,7 +9,7 @@ class WarikanData {
   UserData hostUser;
   List<UserData> guestList;
   List<ItemData> itemList;
-  bool isOpen = false;
+  bool isOpen = true;
 
   WarikanData({
     required this.roomID,
@@ -30,7 +30,7 @@ class WarikanDataNotifer extends ChangeNotifier {
     cl = GrpcClient();
     stcl = GrpcClient();
     _warikanData = warikan;
-
+    _listenConnectBill();
   }
 
   // ゲッター
@@ -41,8 +41,11 @@ class WarikanDataNotifer extends ChangeNotifier {
 
   // ConnectBillのデータを検知するStreamをListen
   void _listenConnectBill() async {
-    listenBill(stcl, _warikanData).listen((event) async {
+    listenBill(cl, _warikanData).listen((event) async {
+      print('call');
       if(event.type == BILL_CHANGE_TYPE.GUEST) {
+        print('GUEST');
+        // _warikanData.guestList = await sendGetUserList(_warikanData, cl);
         updateJoinUser();
       } else if(event.type == BILL_CHANGE_TYPE.ITEM) {
         updatePayUserFromServe(event.id);
