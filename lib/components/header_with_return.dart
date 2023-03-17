@@ -12,7 +12,7 @@ class HeaderWithReturn extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.green[900],
       title: Center(
         child: Text(
-          "割り勘アプリ",
+          "FairTreat",
           style: Theme.of(context).textTheme.titleLarge,
         ),
       ),
