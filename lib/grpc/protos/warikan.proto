@@ -1,0 +1,205 @@
+// Config
+syntax = "proto3";
+option go_package="warikan.suwageeks.org/pkg/pb";
+package warikan;
+
+// ############
+// Service
+// ############
+service Warikan {
+    rpc CreateBill (CreateBillRequest) returns (CreateBillResponse) {}
+    rpc ConnectBill (ConnectBillRequest) returns (stream ConnectBillResponse) {}
+    rpc ConfirmBill (ConfirmBillRequest) returns (ConfirmBillResponse) {}
+
+    // ############
+    // Methods for each room
+    // ############
+    // Users
+    rpc AddUser (AddUserRequest) returns (AddUserResponse) {}
+    rpc RemoveUser (RemoveUserRequest) returns (RemoveUserResponse) {}
+    rpc GetUsersList (GetUsersListRequest) returns (GetUsersListResponse) {}
+
+    // Items
+    rpc SetItems (SetItemsRequest) returns (SetItemsResponse) {}
+    rpc AddItem (AddItemRequest) returns (AddItemResponse) {}
+    rpc RemoveItem (RemoveItemRequest) returns (RemoveItemResponse) {}
+    rpc GetItemsList (GetItemsListRequest) returns (GetItemsListResponse) {}
+    rpc GetItem (GetItemRequest) returns (GetItemResponse) {}
+
+    // ItemOwners
+    rpc SetItemOwners (SetItemOwnersRequest) returns (SetItemOwnersResponse) {}
+    rpc AddItemOwner (AddItemOwnerRequest) returns (AddItemOwnerResponse) {}
+    rpc RemoveItemOwner (RemoveItemOwnerRequest) returns (RemoveItemOwnerResponse) {}
+    rpc GetItemOwners (GetItemOwnersRequest) returns (GetItemOwnersResponse) {}
+}
+
+// ############
+// Enum
+// ############
+enum BILL_CHANGE_TYPE {
+    OWNER = 0;
+    GUEST = 1;
+    BILL = 2;
+    ITEM = 3;
+}
+
+// ############
+// Types
+// ############
+message Bill {
+    string id = 1;
+    string password = 2;
+    User host = 3;
+    repeated User guests = 4;
+}
+message User {
+    int32 id = 1;
+    string name = 2;
+}
+message Item {
+    int32 id = 1;
+    string name = 2;
+    int32 amount = 3;
+    int32 price = 4;
+    repeated User owners = 5;
+}
+
+// ############
+// Messages
+// ############
+//// Bill
+// CreateBill
+message CreateBillRequest {
+    User host = 1;
+}
+message CreateBillResponse {
+    Bill bill = 1;
+    string ownerPassword = 2;
+}
+// ConnectBill
+message ConnectBillRequest {
+    Bill bill = 1;
+}
+message ConnectBillResponse {
+    BILL_CHANGE_TYPE type = 1;
+    int32 id = 2;
+}
+// ConfirmBill
+message ConfirmBillRequest {
+    Bill bill = 1;
+    string ownerPassword = 2;
+}
+message ConfirmBillResponse {
+    bool status = 1;
+}
+
+//// User
+// Add
+message AddUserRequest {
+    Bill bill = 1;
+    User user = 2;
+}
+message AddUserResponse {
+    bool status = 1;
+}
+// Remove
+message RemoveUserRequest {
+    Bill bill = 1;
+    string hostPassword = 2;
+    int32 userId = 3;
+}
+message RemoveUserResponse {
+    bool status = 1;
+}
+// Get
+message GetUsersListRequest {
+    Bill bill = 1;
+}
+message GetUsersListResponse {
+    int32 count = 1;
+    repeated User users = 2;
+}
+
+//// Item
+// Set
+message SetItemsRequest {
+    Bill bill = 1;
+    string ownerPassword = 2;
+    repeated Item items = 3;
+}
+message SetItemsResponse {
+    bool status = 1;
+}
+// Add
+message AddItemRequest {
+    Bill bill = 1;
+    string ownerPassword = 2;
+    Item item = 3;
+}
+message AddItemResponse {
+    bool status = 1;
+}
+// Remove
+message RemoveItemRequest {
+    Bill bill = 1;
+    string ownerPassword = 2;
+    int32 itemId = 3;
+}
+message RemoveItemResponse {
+    bool status = 1;
+}
+// GetList
+message GetItemsListRequest {
+    Bill bill = 1;
+}
+message GetItemsListResponse {
+    int32 count = 1;
+    repeated Item items = 2;
+}
+// Get
+message GetItemRequest {
+    Bill bill = 1;
+    int32 itemId = 2;
+}
+message GetItemResponse {
+    Item item = 1;
+}
+
+/// Owner
+// Set
+message SetItemOwnersRequest {
+    Bill bill = 1;
+    string hostPassword = 2;
+    int32 itemId = 3;
+    repeated User owners = 4;
+}
+message SetItemOwnersResponse {
+    bool status = 1;
+}
+// Add
+message AddItemOwnerRequest {
+    Bill bill = 1;
+    int32 itemId = 2;
+    User owner = 3;
+}
+message AddItemOwnerResponse {
+    bool status = 1;
+}
+// Remove
+message RemoveItemOwnerRequest {
+    Bill bill = 1;
+    int32 itemId = 2;
+    int32 userId = 3;
+}
+message RemoveItemOwnerResponse {
+    bool status = 1;
+}
+// GetList
+message GetItemOwnersRequest {
+    Bill bill = 1;
+    int32 itemId = 2;
+}
+message GetItemOwnersResponse {
+    int32 count = 1;
+    repeated User owners = 2;
+}
