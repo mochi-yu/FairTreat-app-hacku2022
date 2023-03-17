@@ -4,8 +4,8 @@ import '../components/header.dart';
 import '../components/footer.dart';
 import '../data/export_data.dart';
 
-class QRCodePage extends StatelessWidget {
-  QRCodePage({super.key});
+class QRGenePage extends StatelessWidget {
+  QRGenePage({super.key});
 
   @override
   Widget build(BuildContext context) {
