@@ -18,6 +18,19 @@ class UserAssignPage extends StatelessWidget {
       listItemKey.add(GlobalObjectKey<UserListItemWithCheckboxState>("listItem" + i.toString()));
     }
 
+    List<bool> isPay = <bool>[];
+    bool temp = false;
+    for(int i = 0; i < warikanDataNotifer.getUserList.length; i++) {
+      temp = false;
+      for(int j = 0; j < warikanDataNotifer.getItemList[index].payUser.length; j++) {
+        if(warikanDataNotifer.getUserList[i].userName == warikanDataNotifer.getItemList[index].payUser[j].userName) {
+          temp = true;
+          break;
+        }
+      }
+      isPay.add(temp);
+    }
+
     return Scaffold(
       appBar: const Header(),
       body: SingleChildScrollView(
@@ -39,7 +52,8 @@ class UserAssignPage extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 for(int i = 0; i < warikanDataNotifer.getUserList.length; i++) ... {
-                  UserListItemWithCheckbox(key: listItemKey[i], label: warikanDataNotifer.getUserList[i].userName),
+                  
+                  UserListItemWithCheckbox(key: listItemKey[i], label: warikanDataNotifer.getUserList[i].userName, argFlag: isPay[i]),
                 }
               ],
             ),

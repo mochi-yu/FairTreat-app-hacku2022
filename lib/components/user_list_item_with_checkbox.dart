@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class UserListItemWithCheckbox extends StatefulWidget {
   final String label;
+  final bool argFlag;
 
-  const UserListItemWithCheckbox({required this.label, super.key});
+  const UserListItemWithCheckbox({required this.label, super.key, required this.argFlag});
 
   @override
   UserListItemWithCheckboxState createState() => UserListItemWithCheckboxState();
 }
 
 class UserListItemWithCheckboxState extends State<UserListItemWithCheckbox> {
-  bool flag = false;
+  late bool flag = super.widget.argFlag;
 
   void _handleCheckbox(bool? e) {
     setState(() {
