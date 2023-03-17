@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:grpc/grpc.dart';
-import 'package:provider/provider.dart';
 import '../grpc/export_fairtreat_protos.dart';
 import 'user_data.dart';
 import 'item_data.dart';
 
 class WarikanData {
   String roomID;
+  UserData myself;
   UserData hostUser;
   List<UserData> guestList;
   List<ItemData> itemList;
@@ -17,6 +16,7 @@ class WarikanData {
     required this.hostUser,
     required this.guestList,
     required this.itemList,
+    required this.myself,
   });
 }
 

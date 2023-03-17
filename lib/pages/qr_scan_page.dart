@@ -74,7 +74,7 @@ class _QRScanPageState extends State<QRScanPage> {
                       GrpcClient cl = GrpcClient();
                       sendAddUser(roomID!, cl, myself).then((value) => {
                         if(value == true){
-                          sendGetBill(roomID!, cl).then((value) => {
+                          sendGetBill(roomID!, cl, myself).then((value) => {
                             Navigator.of(context).pushNamed(
                               '/warikanPage',
                               arguments: value

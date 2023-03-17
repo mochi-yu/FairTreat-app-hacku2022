@@ -45,8 +45,8 @@ Future<WarikanData> sendCreateBill(WarikanData wada, GrpcClient cl) async {
 }
 
 // ルームの情報を取得。ルームへ参加するときに使用。
-Future<WarikanData> sendGetBill(String id, GrpcClient cl) async {
-  WarikanData wada = WarikanData(roomID: id, hostUser: UserData(userName: "", userID: -1, isHost: false), guestList: [], itemList: []);
+Future<WarikanData> sendGetBill(String id, GrpcClient cl, UserData myself) async {
+  WarikanData wada = WarikanData(roomID: id, hostUser: UserData(userName: "", userID: -1, isHost: false), guestList: [], itemList: [], myself: myself);
   try {
     final response = await cl.client.getBill(
       GetBillRequest(id: wada.roomID)

@@ -10,6 +10,7 @@ class QRGenePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WarikanData warikan = ModalRoute.of(context)!.settings.arguments as WarikanData;
+    warikan.isOpen = true;
 
     return Scaffold(
       appBar: const Header(),

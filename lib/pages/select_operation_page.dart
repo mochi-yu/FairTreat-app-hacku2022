@@ -47,6 +47,7 @@ class SelectOperationPage extends StatelessWidget {
                       '/inputItemDataPage',
                       arguments: WarikanData(
                         roomID: "",
+                        myself: myself,
                         hostUser: myself,
                         guestList: [myself],
                         itemList: data.getInfo(myself),
@@ -65,6 +66,7 @@ class SelectOperationPage extends StatelessWidget {
                   '/inputItemDataPage',
                   arguments: WarikanData(
                     roomID: "",
+                    myself: myself,
                     hostUser: myself,
                     guestList: [myself],
                     itemList: data.getInfo(myself),
@@ -81,6 +83,7 @@ class SelectOperationPage extends StatelessWidget {
                 '/inputItemDataPage',
                 arguments: WarikanData(
                   roomID: "",
+                  myself: myself,
                   hostUser: myself,
                   guestList: [myself],
                   itemList: [],

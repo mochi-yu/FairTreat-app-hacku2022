@@ -74,14 +74,15 @@ class _InputItemDataPage extends State<InputItemDataPage> {
                       warikanData.addJoiningUser(widget.testUser[i]);
                     }
 
-                    for(int i = 0; i < warikanData.getItemList.length; i++) {
-                      warikanData.getItemList[i].id = i;
+                    WarikanData wada = warikanData.getWarikanData;
+                    for(int i = 0; i < wada.itemList.length; i++) {
+                      wada.itemList[i].id = i;
                     }
 
                     GrpcClient cl = GrpcClient();
-                    sendCreateBill(warikan, cl).then((value) {
+                    sendCreateBill(wada, cl).then((value) {
                       Navigator.of(context).pushReplacementNamed(
-                        '/qrcodePage',
+                        '/qrGenePage',
                         arguments: warikan,
                       );
                     });
