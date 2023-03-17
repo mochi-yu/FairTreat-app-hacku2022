@@ -23,10 +23,12 @@ class WarikanData {
 class WarikanDataNotifer extends ChangeNotifier {
   late WarikanData _warikanData;
   late GrpcClient cl;
+  late GrpcClient stcl;
 
   // データの初期化
   WarikanDataNotifer({required WarikanData warikan}) {
     cl = GrpcClient();
+    stcl = GrpcClient();
     _warikanData = warikan;
 
   }
@@ -38,8 +40,8 @@ class WarikanDataNotifer extends ChangeNotifier {
   UserData get getHostUser => _warikanData.hostUser;
 
   // ConnectBillのデータを検知するStreamをListen
-  void _listenConnectBill() {
-    listenBill(cl, _warikanData).listen((event) async {
+  void _listenConnectBill() async {
+    listenBill(stcl, _warikanData).listen((event) async {
       if(event.type == BILL_CHANGE_TYPE.GUEST) {
         updateJoinUser();
       } else if(event.type == BILL_CHANGE_TYPE.ITEM) {

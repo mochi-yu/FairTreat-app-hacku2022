@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:warikan_app/grpc/grpc_client.dart';
 import '../components/header.dart';
 import '../components/footer.dart';
 import '../data/export_data.dart';
@@ -40,10 +41,14 @@ class QRGenePage extends StatelessWidget {
           ),
           Footer(
             label: '割り勘に進む',
-            onPressed: () => Navigator.of(context).pushNamed(
-              '/warikanPage',
-              arguments: warikan,
-            ),
+            onPressed: () async {
+              GrpcClient cl = GrpcClient();
+              warikan.guestList = await sendGetUserList(warikan, cl);
+              Navigator.of(context).pushNamed(
+                '/warikanPage',
+                arguments: warikan,
+              );
+            }
           ),
         ],
       )

@@ -11,13 +11,13 @@ import '../grpc/grpc_client.dart';
 class InputItemDataPage extends StatefulWidget {
   InputItemDataPage({super.key});
 
-  final List<UserData> testUser = [
-    UserData(userName: "一郎", isHost: false, userID: 2),
-    UserData(userName: "次郎", isHost: false, userID: 3),
-    UserData(userName: "三郎", isHost: false, userID: 4),
-    UserData(userName: "四郎", isHost: false, userID: 5),
-    UserData(userName: "五郎", isHost: false, userID: 6),
-  ];
+  // final List<UserData> testUser = [
+  //   UserData(userName: "一郎", isHost: false, userID: 2),
+  //   UserData(userName: "次郎", isHost: false, userID: 3),
+  //   UserData(userName: "三郎", isHost: false, userID: 4),
+  //   UserData(userName: "四郎", isHost: false, userID: 5),
+  //   UserData(userName: "五郎", isHost: false, userID: 6),
+  // ];
 
   @override
   _InputItemDataPage createState() => _InputItemDataPage();

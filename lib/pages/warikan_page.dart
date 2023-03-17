@@ -19,12 +19,6 @@ class _WarikanPage extends State<WarikanPage> {
   @override
   Widget build(BuildContext context) {
     WarikanData warikanData = ModalRoute.of(context)!.settings.arguments as WarikanData;
-    // if(warikanData.isOpen) {
-    //   Navigator.of(context).pushReplacementNamed(
-    //     '/resultPage',
-    //     arguments: warikanData,
-    //   );
-    // }
     print(warikanData.itemList.length);
 
     return Scaffold(
