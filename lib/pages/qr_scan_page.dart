@@ -76,7 +76,7 @@ class _QRScanPageState extends State<QRScanPage> {
                         if(value == true){
                           sendGetBill(roomID!, cl).then((value) => {
                             Navigator.of(context).pushNamed(
-                              '/inputItemDataPage',
+                              '/warikanPage',
                               arguments: value
                             )
                           })
