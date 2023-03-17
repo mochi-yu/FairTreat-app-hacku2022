@@ -80,7 +80,9 @@ class RunnerViewController: UIViewController {
 
         }
 
-        ret = String(ret.dropLast())
+        if(ret != "["){
+            ret = String(ret.dropLast())
+        }
         ret += "]"
     }
 
