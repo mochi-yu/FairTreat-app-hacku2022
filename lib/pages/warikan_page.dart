@@ -57,32 +57,36 @@ class _WarikanPage extends State<WarikanPage> {
                 ),
               ),
             ),
-            Footer(
-              label: warikanData.myself.isHost ? "これで決定" : (warikanData.isOpen ? "ホストが結果を確定してください" : "結果を取得"),
-              onPressed: () async {
-                if(warikanData.myself.isHost) {
-                  print("割り勘確定を送信");
-                  GrpcClient cl = GrpcClient();
-                  sendConfirmBill(warikanData, cl).then((value) {
-                    print("割り勘結果を受信、ページを遷移します。");
-                    Navigator.of(context).pushReplacementNamed(
-                      '/resultPage',
-                      arguments: value,
-                    );
-                  });
-                } else {
-                  if(!warikanData.isOpen) {
-                    GrpcClient cl = GrpcClient();
-                    sendGetConfirmBill(warikanData, cl).then((value) {
-                      print("ゲストが結果を取得");
-                      Navigator.of(context).pushReplacementNamed(
-                        '/resultPage',
-                        arguments: value
-                      );
-                    });
+            Consumer<WarikanDataNotifer>(
+              builder: (context, data, _) {
+                return Footer(
+                  label: data.getWarikanData.myself.isHost ? "これで決定" : (data.getWarikanData.isOpen ? "ホストが結果を確定してください" : "結果を取得"),
+                  onPressed: () async {
+                    if(data.getWarikanData.myself.isHost) {
+                      print("割り勘確定を送信");
+                      GrpcClient cl = GrpcClient();
+                      sendConfirmBill(data.getWarikanData, cl).then((value) {
+                        print("割り勘結果を受信、ページを遷移します。");
+                        Navigator.of(context).pushReplacementNamed(
+                          '/resultPage',
+                          arguments: value,
+                        );
+                      });
+                    } else {
+                      if(!data.getWarikanData.isOpen) {
+                        GrpcClient cl = GrpcClient();
+                        sendGetConfirmBill(data.getWarikanData, cl).then((value) {
+                          print("ゲストが結果を取得");
+                          Navigator.of(context).pushReplacementNamed(
+                            '/resultPage',
+                            arguments: value
+                          );
+                        });
+                      }
+                    }
                   }
-                }
-              }
+                );
+              },
             ),
           ],
         ),
