@@ -13,7 +13,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.green[900],
       centerTitle: true,
       title: Text(
-          "割り勘アプリ",
+          "FairTreat",
           style: Theme.of(context).textTheme.titleLarge
         )
     );
