@@ -32,17 +32,24 @@ Future<WarikanData> sendCreateBill(WarikanData wada, GrpcClient cl) async {
       ),
     );
 
-    final response2 = await cl.client.addUser(
-      AddUserRequest(
-        id: response.billId,
-        name: response.host.name,
-      )
-    );
+    // final response2 = await cl.client.addUser(
+    //   AddUserRequest(
+    //     id: response.billId,
+    //     name: response.host.name,
+    //   )
+    // );
+
+    // wada.roomID = response.billId;
+    // wada.hostUser.userID = response2.guest.id;
+    // wada.guestList[0].userID = response2.guest.id;
+    // wada.isOpen = true;
+
 
     wada.roomID = response.billId;
-    wada.hostUser.userID = response2.guest.id;
-    wada.guestList[0].userID = response2.guest.id;
+    wada.hostUser.userID = response.host.id;
+    wada.guestList[0].userID = response.host.id;
     wada.isOpen = true;
+
   } catch(e) {
     print('Caught error: $e');
   }
