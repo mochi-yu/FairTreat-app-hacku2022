@@ -6,3 +6,5 @@ export 'warikan_page.dart';
 export 'result_page.dart';
 export 'top_page.dart';
 export 'page_show.dart';
+export 'qr_gene_page.dart';
+export 'qr_scan_page.dart';

@@ -1,7 +1,8 @@
  import 'package:flutter/material.dart';
 
-class HeaderWithReturn extends StatelessWidget implements PreferredSizeWidget {
-  const HeaderWithReturn({Key? key}) : super(key: key);
+class HeaderWithQr extends StatelessWidget implements PreferredSizeWidget {
+  late String id;
+  HeaderWithQr({super.key, required this.id});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);

@@ -11,7 +11,7 @@ class Receipt {
   double X_EPS = 0.04;
   double Y_EPS = 0.01;
 
-  List<String> ngWords = ['小計', '合計', '税', '現金', '釣銭', '番号', '%', '％', '支払', '店', '釣り', '預り'];
+  List<String> ngWords = ['小計', '合計', '税', '現金', '釣銭', '番号', '%', '％', '支払', '店', '釣り', '預り', '商品券', 'No', '値引き'];
   List<String> altPrice = ['セット'];
 
   // レシートの内容をグラフで管理
@@ -284,10 +284,13 @@ class Receipt {
 
       // 末端ノードが数値かつhistoryが空文字列でない
       if(edge[index].isEmpty == true && history != '' ){
-        // 数字である
-        if(int.tryParse(node[index].text.toString()) != null){
+        // 数字である(軽減税率を考慮)
+        // TODO : '外', '内'除外候補に入れる。
+        String price = node[index].text.replaceAll('軽', '');
+
+        if(int.tryParse(price) != null){
           for (var i = 0; i < amount; i++) {
-            info.add(ItemData(itemName: history, price: int.parse(node[index].text), payUser: [myself]));
+            info.add(ItemData(itemName: history, price: int.parse(price), payUser: [myself], id: 0));
           } 
         }
         // else{
@@ -310,24 +313,24 @@ class Receipt {
               break;
             }
           }
-        if(hasNGword == false)_reflexiveGetInfo(next, '$history ${node[index].text}', amount);
+        // if(hasNGword == false)_reflexiveGetInfo(next, '$history ${node[index].text}', amount);
 
 
           // 非末端ノードが個数部分だった場合は個数を設定して伝播
           // 個数部の判定は装飾文字を削除してそれが数字なら
-          // List<String> inAmount = ['点', '※', '*', '個'];
-          // String nodeText = node[index].text;
-          // for (var prefix in inAmount) {
-          //   nodeText.replaceAll(prefix, '');
-          // }
+          List<String> inAmount = ['点', '※', '*', '個'];
+          String nodeText = node[index].text;
+          for (var prefix in inAmount) {
+            nodeText.replaceAll(prefix, '');
+          }
 
-          // if(hasNGword == false){
-          //   if (int.tryParse(nodeText.toString()) != null) {
-          //     _reflexiveGetInfo(next, history, int.parse(nodeText));
-          //   }else{
-          //     _reflexiveGetInfo(next, '$history ${node[index].text}', amount);
-          //   }
-          // }
+          if(hasNGword == false){
+            if (int.tryParse(nodeText.toString()) != null) {
+              _reflexiveGetInfo(next, history, amount);
+            }else{
+              _reflexiveGetInfo(next, '$history ${node[index].text}', amount);
+            }
+          }
         }
       } 
     }

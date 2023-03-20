@@ -4,17 +4,19 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 import '../components/header.dart';
 import '../components/largeButton.dart';
+import '../data/export_data.dart';
+import '../grpc/grpc_client.dart';
 
-class QRPage extends StatefulWidget {
-  const QRPage({Key? key}) : super(key: key);
+class QRScanPage extends StatefulWidget {
+  const QRScanPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _QRPageState();
+  State<StatefulWidget> createState() => _QRScanPageState();
 }
 
-class _QRPageState extends State<QRPage> {
+class _QRScanPageState extends State<QRScanPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode? result;
+  String? roomID;
   QRViewController? controller;
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -32,6 +34,7 @@ class _QRPageState extends State<QRPage> {
 
   @override
   Widget build(BuildContext context) {
+    UserData myself = ModalRoute.of(context)!.settings.arguments as UserData;
     return Scaffold(
       appBar: const Header(),
       body: Column(
@@ -50,7 +53,7 @@ class _QRPageState extends State<QRPage> {
                 key: qrKey,
                 onQRViewCreated: _onQRViewCreated,
                 overlay: QrScannerOverlayShape(
-                borderColor: (result == null)? Colors.blue:Colors.green,
+                borderColor: (roomID == null)? Colors.blue:Colors.green,
                 borderRadius: 10,
                 borderLength: 30,
                 borderWidth: 20,),
@@ -65,12 +68,21 @@ class _QRPageState extends State<QRPage> {
               color: Colors.grey[200],
               child: Center(
                 child: LargeButton(
-                  label: (result == null)? 'QRコードを探しています':'セッションに参加', 
+                  label: (roomID == null)? 'QRコードを探しています':'セッションに参加', 
                   onPressed: () {
-                    // TODO: 参加ボタンが押された時の処理
-                    // 現段階ては適当に出力してます。
-                    if (result != null){
-                      print('${result!.code}に参加しました。');                      
+                    if (roomID != null){
+                      GrpcClient cl = GrpcClient();
+                      sendAddUser(roomID!, cl, myself).then((value) => {
+                        if(value == true){
+                          sendGetBill(roomID!, cl, myself).then((value) => {
+                            Navigator.of(context).pushNamed(
+                              '/warikanPage',
+                              arguments: value
+                            )
+                          })
+                        }
+                      });
+
                     }
                 })
               ),
@@ -87,7 +99,7 @@ class _QRPageState extends State<QRPage> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        result = scanData;
+        roomID = scanData.code;
         // TODO: 読み込まれたQRがセッションIDなのかのチェック
       });
     });

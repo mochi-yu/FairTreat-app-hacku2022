@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/pageList.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.green, 
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
         '/selectOperationPage': (BuildContext context) => const SelectOperationPage(),
         '/selectItemFromPhotoPage' : (BuildContext context) => const SelectItemFromPhoto(),
         '/inputItemDataPage' : (BuildContext context) => InputItemDataPage(),
+        '/qrGenePage' : (BuildContext context) => QRGenePage(),
+        '/qrScanPage' : (BuildContext context) => const QRScanPage(),
         '/warikanPage' : (BuildContext context) => const WarikanPage(),
         '/resultPage' : (BuildContext context) => const ResultPage(),
       },

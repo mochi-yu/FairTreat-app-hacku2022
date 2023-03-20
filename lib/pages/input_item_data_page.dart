@@ -5,18 +5,19 @@ import '../components/footer.dart';
 import '../components/editable_item_card_with_price.dart';
 import '../components/add_item_card.dart';
 import '../data/export_data.dart';
+import '../grpc/grpc_client.dart';
 
 
 class InputItemDataPage extends StatefulWidget {
   InputItemDataPage({super.key});
 
-  final List<UserData> testUser = [
-    UserData(userName: "一郎", isHost: false),
-    UserData(userName: "次郎", isHost: false),
-    UserData(userName: "三郎", isHost: false),
-    UserData(userName: "四郎", isHost: false),
-    UserData(userName: "五郎", isHost: false),
-  ];
+  // final List<UserData> testUser = [
+  //   UserData(userName: "一郎", isHost: false, userID: 2),
+  //   UserData(userName: "次郎", isHost: false, userID: 3),
+  //   UserData(userName: "三郎", isHost: false, userID: 4),
+  //   UserData(userName: "四郎", isHost: false, userID: 5),
+  //   UserData(userName: "五郎", isHost: false, userID: 6),
+  // ];
 
   @override
   _InputItemDataPage createState() => _InputItemDataPage();
@@ -41,7 +42,7 @@ class _InputItemDataPage extends State<InputItemDataPage> {
                     children: [
                       const SizedBox(height: 55),
                       Text(
-                        '商品として追加するものを選んでください。\n品目の追加修正は後から行えます。',
+                        '品目と金額を修正・追加してください。',
                         style: Theme.of(context).textTheme.titleMedium,
                         textAlign: TextAlign.center,
                       ),
@@ -68,16 +69,24 @@ class _InputItemDataPage extends State<InputItemDataPage> {
               builder: (context, warikanData, _) {
                 return Footer(
                   label: "これで決定",
-                  onPressed: () {
-                    for(int i = 0; i < widget.testUser.length; i++) {
-                      warikanData.addJoiningUser(widget.testUser[i]);
+                  onPressed: () async {
+                    // for(int i = 0; i < widget.testUser.length; i++) {
+                    //   warikanData.addJoiningUser(widget.testUser[i]);
+                    // }
+
+                    WarikanData wada = warikanData.getWarikanData;
+                    for(int i = 0; i < wada.itemList.length; i++) {
+                      wada.itemList[i].id = i;
                     }
-                    Navigator.of(context).pushReplacementNamed(
-                      '/warikanPage',
-                      arguments: warikanData.getWarikanData
-                    );
-                    // print("pushed これで決定");
-                  }
+
+                    GrpcClient cl = GrpcClient();
+                    sendCreateBill(wada, cl).then((value) {
+                      Navigator.of(context).pushReplacementNamed(
+                        '/qrGenePage',
+                        arguments: warikan,
+                      );
+                    });
+                  },
                 );
               },
             ),

@@ -4,6 +4,7 @@ import '../components/item_card_with_price.dart';
 import '../components/user_list_item_with_checkbox.dart';
 import '../components/shortButton.dart';
 import '../data/export_data.dart';
+import '../grpc/grpc_client.dart';
 
 class UserAssignPage extends StatelessWidget {
   final WarikanDataNotifer warikanDataNotifer;
@@ -71,6 +72,7 @@ class UserAssignPage extends StatelessWidget {
                   color: const Color.fromARGB(255, 123, 255, 128),
                   label: "決定",
                   onPressed: () {
+                    // 支払うユーザの更新
                     List<UserData> newPayUser = [];
                     for(int i = 0; i < warikanDataNotifer.getUserList.length; i++) {
                       if(listItemKey[i].currentState?.flag ?? false) {
@@ -78,6 +80,7 @@ class UserAssignPage extends StatelessWidget {
                       }
                     }
                     warikanDataNotifer.updatePayUser(newPayUser, index);
+
                     Navigator.pop(context);
                   }
                 ),
