@@ -4,6 +4,7 @@ import '../components/item_card_with_price.dart';
 import '../components/user_list_item_with_checkbox.dart';
 import '../components/shortButton.dart';
 import '../data/export_data.dart';
+import '../grpc/grpc_client.dart';
 
 class UserAssignPage extends StatelessWidget {
   final WarikanDataNotifer warikanDataNotifer;
@@ -16,6 +17,19 @@ class UserAssignPage extends StatelessWidget {
     List<GlobalObjectKey<UserListItemWithCheckboxState>> listItemKey = [];
     for(int i = 0; i < warikanDataNotifer.getUserList.length; i++) {
       listItemKey.add(GlobalObjectKey<UserListItemWithCheckboxState>("listItem" + i.toString()));
+    }
+
+    List<bool> isPay = <bool>[];
+    bool temp = false;
+    for(int i = 0; i < warikanDataNotifer.getUserList.length; i++) {
+      temp = false;
+      for(int j = 0; j < warikanDataNotifer.getItemList[index].payUser.length; j++) {
+        if(warikanDataNotifer.getUserList[i].userName == warikanDataNotifer.getItemList[index].payUser[j].userName) {
+          temp = true;
+          break;
+        }
+      }
+      isPay.add(temp);
     }
 
     return Scaffold(
@@ -39,7 +53,8 @@ class UserAssignPage extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 for(int i = 0; i < warikanDataNotifer.getUserList.length; i++) ... {
-                  UserListItemWithCheckbox(key: listItemKey[i], label: warikanDataNotifer.getUserList[i].userName),
+                  
+                  UserListItemWithCheckbox(key: listItemKey[i], label: warikanDataNotifer.getUserList[i].userName, argFlag: isPay[i]),
                 }
               ],
             ),
@@ -57,6 +72,7 @@ class UserAssignPage extends StatelessWidget {
                   color: const Color.fromARGB(255, 123, 255, 128),
                   label: "決定",
                   onPressed: () {
+                    // 支払うユーザの更新
                     List<UserData> newPayUser = [];
                     for(int i = 0; i < warikanDataNotifer.getUserList.length; i++) {
                       if(listItemKey[i].currentState?.flag ?? false) {
@@ -64,6 +80,7 @@ class UserAssignPage extends StatelessWidget {
                       }
                     }
                     warikanDataNotifer.updatePayUser(newPayUser, index);
+
                     Navigator.pop(context);
                   }
                 ),

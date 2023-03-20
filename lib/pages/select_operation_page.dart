@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:warikan_app/qr/qr_code.dart';
 import 'package:flutter/services.dart';
 import '../components/header.dart';
 import '../components/largeButton.dart';
@@ -48,6 +47,7 @@ class SelectOperationPage extends StatelessWidget {
                       '/inputItemDataPage',
                       arguments: WarikanData(
                         roomID: "",
+                        myself: myself,
                         hostUser: myself,
                         guestList: [myself],
                         itemList: data.getInfo(myself),
@@ -66,6 +66,7 @@ class SelectOperationPage extends StatelessWidget {
                   '/inputItemDataPage',
                   arguments: WarikanData(
                     roomID: "",
+                    myself: myself,
                     hostUser: myself,
                     guestList: [myself],
                     itemList: data.getInfo(myself),
@@ -82,6 +83,7 @@ class SelectOperationPage extends StatelessWidget {
                 '/inputItemDataPage',
                 arguments: WarikanData(
                   roomID: "",
+                  myself: myself,
                   hostUser: myself,
                   guestList: [myself],
                   itemList: [],
@@ -93,9 +95,10 @@ class SelectOperationPage extends StatelessWidget {
             LargeButton(label: 'QRコードで割り勘に参加', 
               onPressed: () {
                 myself.isHost = false;
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const QRPage(),
-                ));
+                Navigator.of(context).pushNamed(
+                  '/qrScanPage',
+                  arguments: myself
+                );
               }
             ),
           ],
