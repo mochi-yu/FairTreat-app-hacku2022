@@ -11,7 +11,7 @@ class Receipt {
   double X_EPS = 0.04;
   double Y_EPS = 0.01;
 
-  List<String> ngWords = ['小計', '合計', '税', '現金', '釣銭', '番号', '%', '％', '支払', '店', '釣り', '預り', '商品券', 'No'];
+  List<String> ngWords = ['小計', '合計', '税', '現金', '釣銭', '番号', '%', '％', '支払', '店', '釣り', '預り', '商品券', 'No', '値引き'];
   List<String> altPrice = ['セット'];
 
   // レシートの内容をグラフで管理
@@ -285,6 +285,7 @@ class Receipt {
       // 末端ノードが数値かつhistoryが空文字列でない
       if(edge[index].isEmpty == true && history != '' ){
         // 数字である(軽減税率を考慮)
+        // TODO : '外', '内'除外候補に入れる。
         String price = node[index].text.replaceAll('軽', '');
 
         if(int.tryParse(price) != null){
